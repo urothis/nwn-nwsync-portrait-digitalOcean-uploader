@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"log"
@@ -9,6 +10,14 @@ import (
 
 	minio "github.com/minio/minio-go/v6"
 )
+
+func fmtDuration(d time.Duration) string {
+	d = d.Round(time.Minute)
+	h := d / time.Hour
+	d -= h * time.Hour
+	m := d / time.Minute
+	return fmt.Sprintf("%02d:%02d", h, m)
+}
 
 func main() {
 	start := time.Now()
@@ -33,14 +42,14 @@ func main() {
 				return err
 			}
 			// upload object
-			n, err := client.FPutObject(spaceName, os.Getenv("SUBFOLDER")+"/"+info.Name(), path, minio.PutObjectOptions{ContentType: "image/png"})
+			n, err := client.FPutObject(spaceName, os.Getenv("SUBFOLDER")+"/"+info.Name(), path, minio.PutObjectOptions{ContentType: "image/png", UserMetadata: map[string]string{"x-amz-acl": "public-read"}})
 			if err != nil {
 				log.Fatalln(err)
 			}
 
 			count++
-			elapsed := time.Since(startSingleFile).Seconds()
-			log.Printf("Successfully uploaded %s of size %d | took %d\n", info.Name(), uint64(n), uint64(elapsed))
+			elapsed := time.Since(startSingleFile)
+			log.Printf("Successfully uploaded %s of size %d | took %du\n", info.Name(), uint64(n), uint64(elapsed))
 			return nil
 
 		})
@@ -48,6 +57,6 @@ func main() {
 		log.Println(err)
 	}
 
-	Totalelapsed := time.Since(start).Seconds()
-	log.Printf("Successfully uploaded %d files | took %d\n", int(count), uint64(Totalelapsed))
+	Totalelapsed := time.Since(start)
+	log.Printf("Successfully uploaded %d files | %s elapsed\n", int(count), fmtDuration(Totalelapsed))
 }

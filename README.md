@@ -29,8 +29,3 @@ bucketName | SPACE_NAME default:"nwn"
 subFolder | SUBFOLDER default:"portrait"
 4. Run the relative .bat (windows) .sh (linux) for your os. 
 5. Sit back and watch.
-
-# FAQ
-
-### Why can't I access the pictures I just uploaded using the url digital ocean gives me:
-Confirm the pictures have the permission level they require. We upload them as private, and you can select them all and change them to public if you want to use them on anything public facing. `webhooks` is an example that requires public permissions.
