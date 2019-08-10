@@ -51,7 +51,7 @@ func main() {
 	}
 	spaceName := os.Getenv("SPACE_NAME")
 
-	folder := "/tga"
+	folder := "/png"
 	totalCount, _ := fileCount(folder)
 	log.Printf("%d files processing", int(totalCount))
 	bar := progressbar.NewOptions(totalCount,
