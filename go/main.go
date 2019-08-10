@@ -9,6 +9,7 @@ import (
 	"time"
 
 	minio "github.com/minio/minio-go/v6"
+	"github.com/schollz/progressbar/v2"
 )
 
 func fmtDuration(d time.Duration) string {
@@ -16,7 +17,25 @@ func fmtDuration(d time.Duration) string {
 	h := d / time.Hour
 	d -= h * time.Hour
 	m := d / time.Minute
-	return fmt.Sprintf("%02d:%02d", h, m)
+	return fmt.Sprintf("%02dh%02dm", h, m)
+}
+
+func fileCount(path string) (int, error) {
+	i := 0
+	err := filepath.Walk(path,
+		func(path string, info os.FileInfo, err error) error {
+
+			// return if directory
+			if info, err := os.Stat(path); err == nil && info.IsDir() {
+				return err
+			}
+			i++
+			return nil
+		})
+	if err != nil {
+		log.Println(err)
+	}
+	return i, nil
 }
 
 func main() {
@@ -31,16 +50,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	spaceName := os.Getenv("SPACE_NAME")
-
+	folder := "/nwsync"
 	count := 0
-	err = filepath.Walk("/png",
+	totalCount, _ := fileCount(folder)
+	log.Printf("%d files processing", int(totalCount))
+	bar := progressbar.NewOptions(totalCount,
+		progressbar.OptionSetRenderBlankState(true),
+		progressbar.OptionShowIts(),
+	)
+	err = filepath.Walk(folder,
 		func(path string, info os.FileInfo, err error) error {
 			startSingleFile := time.Now()
 			// return if directory
 			if info, err := os.Stat(path); err == nil && info.IsDir() {
 				return err
 			}
+			bar.Add(1)
 			// upload object
 			n, err := client.FPutObject(spaceName, os.Getenv("SUBFOLDER")+"/"+info.Name(), path, minio.PutObjectOptions{ContentType: "image/png", UserMetadata: map[string]string{"x-amz-acl": "public-read"}})
 			if err != nil {
@@ -56,7 +81,7 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-
 	Totalelapsed := time.Since(start)
+	bar.Finish()
 	log.Printf("Successfully uploaded %d files | %s elapsed\n", int(count), fmtDuration(Totalelapsed))
 }
