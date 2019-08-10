@@ -49,11 +49,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	spaceName := os.Getenv("SPACE_NAME")
 
-	folder := "/nwsync"
-	count := 0
+	folder := "/tga"
 	totalCount, _ := fileCount(folder)
 	log.Printf("%d files processing", int(totalCount))
 	bar := progressbar.NewOptions(totalCount,
@@ -62,21 +60,16 @@ func main() {
 	)
 	err = filepath.Walk(folder,
 		func(path string, info os.FileInfo, err error) error {
-			startSingleFile := time.Now()
 			// return if directory
 			if info, err := os.Stat(path); err == nil && info.IsDir() {
 				return err
 			}
 			bar.Add(1)
 			// upload object
-			n, err := client.FPutObject(spaceName, os.Getenv("SUBFOLDER")+"/"+info.Name(), path, minio.PutObjectOptions{ContentType: "image/png", UserMetadata: map[string]string{"x-amz-acl": "public-read"}})
+			_, err = client.FPutObject(spaceName, os.Getenv("SUBFOLDER")+"/"+info.Name(), path, minio.PutObjectOptions{ContentType: "image/png", UserMetadata: map[string]string{"x-amz-acl": "public-read"}})
 			if err != nil {
 				log.Fatalln(err)
 			}
-
-			count++
-			elapsed := time.Since(startSingleFile)
-			log.Printf("Successfully uploaded %s of size %d | took %du\n", info.Name(), uint64(n), uint64(elapsed))
 			return nil
 
 		})
@@ -85,5 +78,5 @@ func main() {
 	}
 	Totalelapsed := time.Since(start)
 	bar.Finish()
-	log.Printf("Successfully uploaded %d files | %s elapsed\n", int(count), fmtDuration(Totalelapsed))
+	log.Printf("Successfully uploaded %d files | %s elapsed\n", int(totalCount), fmtDuration(Totalelapsed))
 }
