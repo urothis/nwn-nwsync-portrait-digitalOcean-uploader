@@ -49,5 +49,5 @@ func main() {
 	}
 
 	Totalelapsed := time.Since(start).Seconds()
-	log.Printf("Successfully uploaded %d files | took %b\n", int(count), uint64(Totalelapsed))
+	log.Printf("Successfully uploaded %d files | took %d\n", int(count), uint64(Totalelapsed))
 }
