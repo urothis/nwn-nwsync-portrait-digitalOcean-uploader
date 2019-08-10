@@ -50,6 +50,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	spaceName := os.Getenv("SPACE_NAME")
+
 	folder := "/nwsync"
 	count := 0
 	totalCount, _ := fileCount(folder)
