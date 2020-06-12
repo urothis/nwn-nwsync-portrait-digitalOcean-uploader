@@ -7,13 +7,13 @@ This will ingest all the .tga files you put into the tga folder, convert them to
 Currently I have only tested this with DigitalOcean, but in concept this should work with AWS as well, no promises on any other providers either.
 
 ### example png:
-https://nwn.urothis.dev/portrait/po_a_bird_rav_h.png
+https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_h.png
 
-![Raven](https://nwn.urothis.dev/portrait/po_a_bird_rav_h.png)
-![Raven](https://nwn.urothis.dev/portrait/po_a_bird_rav_l.png)
-![Raven](https://nwn.urothis.dev/portrait/po_a_bird_rav_m.png)
-![Raven](https://nwn.urothis.dev/portrait/po_a_bird_rav_s.png)
-![Raven](https://nwn.urothis.dev/portrait/po_a_bird_rav_t.png)
+![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_h.png)
+![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_l.png)
+![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_m.png)
+![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_s.png)
+![Raven]https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_t.png)
 
 # HOWTOUSE
 1. Latest docker
