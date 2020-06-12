@@ -13,7 +13,7 @@ https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_h.png
 ![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_l.png)
 ![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_m.png)
 ![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_s.png)
-![Raven]https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_t.png)
+![Raven](https://nwn.sfo2.digitaloceanspaces.com/portrait/po_a_bird_rav_t.png)
 
 # HOWTOUSE
 1. Latest docker
